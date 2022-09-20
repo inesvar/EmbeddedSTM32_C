@@ -44,7 +44,7 @@ fill :
     mov r4, r1
 
 loop :
-    // remplir une zone mémoire avec un motif 
+    // remplir une zone memoire avec un motif 
     str r0, [r1]
     add r1, r1, #4
     cmp r1, r2
@@ -52,7 +52,7 @@ loop :
 
 
 loop2 :
-    //copier coller la zone à une adresse différente
+    //copier coller la zone a une adresse differente
     ldr r0, [r4]
     str r0, [r3]
     add r4, r4, #4
@@ -60,5 +60,5 @@ loop2 :
     cmp r4, r2
     bne loop2
 
-    //fin d'execution de la fonction
+    //fin d execution de la fonction
     bx lr
