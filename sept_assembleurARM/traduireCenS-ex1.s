@@ -7,10 +7,17 @@ for (uint8_t i=0; i<=a; i++) {
 }
 */
 
+.syntax unified
+.arch armv7-m
+.cpu cortex-m4
 
-    ldr r0, [var] //declaration de a
+.global _start
 
+
+
+    ldr r0, var //declaration de a
     mov r1, #0
+
 loop :
     bl g
     add r1, r1, #1
@@ -34,10 +41,10 @@ Meme code MAIS i n'est plus un uint8_t mais un int
 //la seule difference avec le code precedent est qu'on n'a plus besoin du masque
 
 
-    ldr r0, [var] //declaration de a
+    ldr r0, var2 //declaration de a
 
     mov r1, #0
-loop :
+loop2 :
     bl g
     add r1, r1, #1
     ldr r2, [r0] //on relit la valeur de a
@@ -45,7 +52,7 @@ loop :
     bls loop //si inferieur ou egal
     bx lr
 
-var :
+var2 :
     .word a
 
 
