@@ -9,5 +9,5 @@ _start :
     bl init_bss
     bl main
 
-_end :
-    b _end
+_exit :
+    b _exit
