@@ -9,13 +9,13 @@ LDFLAGS = -T ld_ram.lds -nostdlib -g
 
 GDB   = gdb-multiarch
 
-init_stack.o:init_stack.s
+crt0.o:crt0.s
 	$(AS) $(ASFLAGS) $< -o $@
 
 main.o:main.c
 	$(CC) $(CFLAGS) $(TARGET_ARCH) $^ -o $@
 
-main:init_stack.o main.o
+main:crt0.o main.o
 	$(CC) $(LDFLAGS) $^ -o $@
 
 

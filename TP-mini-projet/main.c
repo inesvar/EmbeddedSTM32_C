@@ -3,9 +3,12 @@ int fibo(int n); //n-ieme nombre de la suite de Fibonacci
 
 int main(int argc, const char * argv[]) {
     return fibo(8);
+
 }
 
 int fibo(int n) {
+    /* Cette fonction calcule le n-ieme nombre de la suite de Fibonacci
+    pour n un entier strictement positif */
     if (n < 3) {
         return 1;
     } else {
