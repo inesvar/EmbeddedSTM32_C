@@ -21,8 +21,11 @@ SECTIONS
     } > SRAM1
 
     .bss : {
-        *(.bss)
+        _bstart = . ;
+        *(.bss) *(*COMMON*)
+        _bend = . ;
     } > SRAM1
 }
 
 ENTRY(_start)
+

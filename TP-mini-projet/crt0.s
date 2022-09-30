@@ -6,6 +6,7 @@
 
 _start :
     ldr sp, =0x10008000
+    bl init_bss
     bl main
 
 _end :

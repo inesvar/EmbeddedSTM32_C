@@ -1,9 +1,13 @@
+#include <stdint.h>
+
 
 int fibo(int n); //n-ieme nombre de la suite de Fibonacci
 
-int main(int argc, const char * argv[]) {
-    return fibo(8);
+int number_in_bss;
 
+int main(int argc, const char * argv[]) {
+    number_in_bss = 2;
+    return number_in_bss;
 }
 
 int fibo(int n) {
