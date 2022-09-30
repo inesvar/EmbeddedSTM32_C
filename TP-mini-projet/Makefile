@@ -27,3 +27,7 @@ connect:
 
 debug:
 	$(GDB) -x se203.gdb
+
+clean :
+	rm $(OBJS)
+	rm $(EXE)
