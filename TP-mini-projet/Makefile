@@ -2,12 +2,12 @@ PREFIX =arm-none-eabi
 CC = $(PREFIX)-gcc
 LD = $(PREFIX)-ld
 AS = $(PREFIX)-as
-CFLAGS = -c -g -O1 -ffreestanding
+CFLAGS = -c -g -O1 -ffreestanding -Wall -Wextra
 ASFLAGS = -g -mthumb
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb
 LDFLAGS = -T ld_ram.lds -nostdlib -g
 
-OBJS = crt0.o init.o main.o 
+OBJS = crt0.o led.o main.o 
 EXE = main
 
 GDB   = gdb-multiarch
@@ -15,8 +15,8 @@ GDB   = gdb-multiarch
 %.o:%.s
 	$(AS) $(ASFLAGS) $< -o $@
 
-%.o:%.c
-	$(CC) $(CFLAGS) $(TARGET_ARCH) $^ -o $@
+%.o:%.c %.h
+	$(CC) $(CFLAGS) $(TARGET_ARCH) $< -o $@
 
 $(EXE):$(OBJS)
 	$(CC) $(LDFLAGS) $^ -o $@

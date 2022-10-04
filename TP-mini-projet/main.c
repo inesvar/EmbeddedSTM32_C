@@ -1,26 +1,32 @@
-#include <stdint.h>
+#include "led.h"
 
-int fibo(int n);
+#define HALF_PERIOD 300000
 
-int number_in_bss;
+int main() {
+    led_init();
+    for (int i = 0 ; i < 15 ; i++) {
 
-int main(int argc, const char *argv[])
-{
-    return fibo(8);
-}
+        //eteindre les leds bleue et jaune, allumer la verte
+        led(LED_OFF);
+        led_g_on();
+        for (int i=0; i< HALF_PERIOD; i++) {
+            asm volatile("nop");
+        }   
 
+        //eteindre la led verte, allumer la jaune     
+        led_g_off();
+        led(LED_YELLOW);
+        for (int i=0; i< HALF_PERIOD; i++) {
+            asm volatile("nop");
+        }     
 
-
-int fibo(int n)
-{
-    /* Cette fonction calcule le n-ieme nombre de la suite de Fibonacci
-    pour n un entier strictement positif */
-    if (n < 3)
-    {
-        return 1;
+        //changer la led jaune pour la bleue   
+        led(LED_BLUE);
+        for (int i=0; i< HALF_PERIOD; i++) {
+            asm volatile("nop");
+        }
     }
-    else
-    {
-        return fibo(n - 1) + fibo(n - 2);
-    }
+    
+    led(LED_OFF);
+    return 0;
 }
