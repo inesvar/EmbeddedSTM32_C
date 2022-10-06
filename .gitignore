@@ -1,6 +1,7 @@
 *
 !*/
 !*.*
+!Makefile
 *.o
 *.elf
 a.out
