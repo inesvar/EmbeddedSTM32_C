@@ -1,0 +1,8 @@
+Apres observation des sections pour differentes compilations et differentes 
+manieres de stocker une chaine de caractere, on remarque les choses suivantes :
+
+- Si on optimise (donc pas en -O0), il y a plusieurs sections .rodata differentes :
+        .rodata contient les tableaux et les pointeurs constants (aligne sur 4 octets)
+        .rodata.str contient les chaines de caracteres qui ne font pas partie d'un tableau (aligne sur 1 octet en -Os, sur 4 sinon)
+
+- en -Os et en -O2, le code est contenu dans text.startup et .text est vide

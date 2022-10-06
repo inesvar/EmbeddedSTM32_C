@@ -21,8 +21,9 @@ Contient un pointeur vers 4 octets ou est stocke y
                   CONTENTS, ALLOC, LOAD, READONLY, DATA
 
 Contient les chaines de caracteres "Hello World" et le contenu du printf
-Il y a exactement un octet pour chaque char et deux en plus pour la fin des
-chaines de caracteres.
+Il y a exactement un octet pour chaque char, deux en plus pour la fin des
+chaines de caracteres, et de plus chaque chaine commence sur un multiple 
+de 4 octets.
 
   4 .comment      0000005a  00000000  00000000  000000d2  2**0
                   CONTENTS, READONLY
@@ -37,6 +38,7 @@ Contient des infos sur la version du processeur
 
 *******************************************************************
 Pour static const char mesg[], les sections sont exactement les memes.
+(avec arm-none-eabi-gcc 9.2.1 20191025)
 
 *******************************************************************
 Pour const char *mesg, voici les sections de tailles differentes par rapport au code original :
