@@ -2,9 +2,9 @@ PREFIX =arm-none-eabi
 CC = $(PREFIX)-gcc
 LD = $(PREFIX)-ld
 AS = $(PREFIX)-as
-CFLAGS = -g -O1 -ffreestanding -mfloat-abi=hard -Wall -Wextra -Werror
+CFLAGS = -g -O1 -ffreestanding -Wall -Wextra -Werror
 ASFLAGS = -g -mthumb
-TARGET_ARCH = -mcpu=cortex-m4 -mthumb
+TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard 
 LDFLAGS = -T ld_ram.lds -nostdlib -g
 
 OBJS_A = crt0.o led.o main.o
