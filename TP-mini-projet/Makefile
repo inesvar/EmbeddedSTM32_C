@@ -2,12 +2,13 @@ PREFIX =arm-none-eabi
 CC = $(PREFIX)-gcc
 LD = $(PREFIX)-ld
 AS = $(PREFIX)-as
-CFLAGS = -g -O1 -ffreestanding -Wall -Wextra -Werror
+CFLAGS = -g -O1 -ffreestanding -Wall -Wextra -Werror 
+CFLAGS += -I ../CMSIS/Device/ST/STM32L4xx/Include -I ../CMSIS/Include
 ASFLAGS = -g -mthumb
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard 
 LDFLAGS = -T ld_ram.lds -nostdlib -g
 
-OBJS_A = crt0.o led.o main.o
+OBJS_A = crt0.o led.o main.o init.o
 OBJS := $(OBJS_A) clocks.o
 EXE = main
 
