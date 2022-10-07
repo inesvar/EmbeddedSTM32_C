@@ -3,6 +3,9 @@
 //#include "stm32l475xx.h"
 #include "stm32l4xx.h"
 
+#define GPIO_B_BSRR (*(volatile uint32_t *)0x48000418)
+
+
 void led_init()
 {
     // activer horloge dans RCC_AHB2ENR
@@ -22,12 +25,14 @@ void led_init()
 
 void led_g_on()
 {
-    GPIOB->MODER |= GPIO_BSRR_BS14;
+    GPIOB->BSRR |= GPIO_BSRR_BS14;
+
+
 }
 
 void led_g_off()
 {
-    GPIOB->MODER |= GPIO_BSRR_BR14;
+    GPIOB->BSRR |= GPIO_BSRR_BR14;
 }
 
 void led(enum State state)
@@ -36,18 +41,18 @@ void led(enum State state)
     {
     case LED_OFF:
         //passer GPIOC en mode entree eteint les deux leds
-        // PC9 en entree :
-        // 10 dans les bits [19:18] de GPIO_C_MODER
-        GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE9_Msk) | GPIO_MODER_MODE9_1;
+        // PC9 en entree 
+        // 00 dans les bits [19:18] de GPIO_C_MODER
+        GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE9_Msk);
         break;
     case LED_YELLOW:
-        GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE9_Msk) | GPIO_MODER_MODE9;
-        GPIOC->MODER |= GPIO_BSRR_BS9;
+        GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE9_Msk) | GPIO_MODER_MODE9_0;
+        GPIOC->BSRR |= GPIO_BSRR_BS9;
         break;
 
     case LED_BLUE:
-        GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE9_Msk) | GPIO_MODER_MODE9;
-        GPIOC->MODER |= GPIO_BSRR_BR9;
+        GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE9_Msk) | GPIO_MODER_MODE9_0;
+        GPIOC->BSRR |= GPIO_BSRR_BR9;
         break;
     }
 }
