@@ -5,7 +5,7 @@
 .global _start
 
 _start :
-    ldr sp, =0x10008000
+    ldr sp, =stack_start
     bl init_bss
     bl main
 
