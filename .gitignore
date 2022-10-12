@@ -1,6 +1,7 @@
 *
 !*/
 !*.*
+!hello
 !Makefile
 *.o
 !clocks.o
