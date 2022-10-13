@@ -72,5 +72,20 @@ uint8_t uart_getchar() {
 }
 
 
+void uart_puts(const char *s) {
+    while (*s != '\0') {
+        uart_putchar(*s);
+        s++;
+    }
+    uart_putchar('\0');
+}
+
+void uart_gets(char *s, size_t size) {
+    for (int i = 0; i < size ; i++) {
+        *s = uart_getchar();
+        s++; 
+    }
+    *s = '\0';
+}
 
 
