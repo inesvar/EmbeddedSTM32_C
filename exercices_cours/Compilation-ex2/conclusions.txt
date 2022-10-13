@@ -6,3 +6,5 @@ manieres de stocker une chaine de caractere, on remarque les choses suivantes :
         .rodata.str contient les chaines de caracteres qui ne font pas partie d'un tableau (aligne sur 1 octet en -Os, sur 4 sinon)
 
 - en -Os et en -O2, le code est contenu dans text.startup et .text est vide
+
+- quand on optimise en taille et en vitesse, les alignements changent : rodata par exemple est aligne sur 1 octet en -Os et sur 4 octets en -O1
