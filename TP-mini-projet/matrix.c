@@ -1,5 +1,5 @@
 #include "stm32l4xx.h"
-
+#include "matrix.h"
 
 
 void matrix_init() {
@@ -66,7 +66,10 @@ void matrix_init() {
     GPIOA->BSRR |= GPIO_BSRR_BR7;
     GPIOA->BSRR |= GPIO_BSRR_BR15;
 
-    while () {}
+    for (int i=0; i< 6000000 ; i++) {
+            asm volatile("nop");
+    }  
+
 
     //repasse RST a l'etat haut
     GPIOC->BSRR |= GPIO_BSRR_BS3;
