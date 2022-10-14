@@ -4,6 +4,7 @@
 #include "uart.h"
 
 
+
 void uart_init()
 {
     //on allume l'horloge du port B
@@ -81,7 +82,7 @@ void uart_puts(const char *s) {
 }
 
 void uart_gets(char *s, size_t size) {
-    for (int i = 0; i < size ; i++) {
+    for (uint32_t i = 0; i < size ; i++) {
         *s = uart_getchar();
         s++; 
     }

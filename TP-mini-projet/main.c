@@ -12,6 +12,7 @@ int main() {
     uart_putchar('c');
     uart_putchar('o');
     uart_putchar('m');
+    uart_puts("Hello World!");
     while (1) {
         uint8_t textSend = uart_getchar();
         uart_putchar(textSend);
