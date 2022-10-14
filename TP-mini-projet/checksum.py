@@ -30,10 +30,12 @@ def main():
     args = parser.parse_args()
 
     # Check num
+    '''
     if args.num < 100 or args.num > 100000:
         print("Error : invalid num parameter: %d\n"%args.num)
         parser.print_help()
         sys.exit(-1)
+    '''
 
     # Open serial port
     try:

@@ -1,28 +1,18 @@
+#include <stdint.h>
 #include "clocks.h"
 #include "uart.h"
 
-#define HALF_PERIOD 6000000
-
-void delay();
+    
 
 int main() {
     clocks_init();
-
     uart_init();
-    uart_putchar('c');
-    uart_putchar('o');
-    uart_putchar('m');
-    uart_puts("Hello World!");
-    while (1) {
-        uint8_t textSend = uart_getchar();
-        uart_putchar(textSend);
+    uint32_t sum = 0;
+    for (uint16_t i = 0 ; i < 1000 ; i++) {
+        uint8_t octetSend = uart_getchar();
+        sum = sum + octetSend;
     }
-    
-    return 0;
+    return sum;
 }
 
-void delay() {
-    for (int i=0; i< HALF_PERIOD; i++) {
-            asm volatile("nop");
-    }
-}
+//la transmission a vitesse maximale 115200 ne marche que si on ne met pas d'autre envoi dans la boucle
