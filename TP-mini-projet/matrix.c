@@ -56,6 +56,98 @@ void matrix_init() {
     SDA(0);
 
     //eteindre toutes les lignes : C0 a C7 a 0
+    deactivate_rows();
+
+    delay(2000000);
+    //delay(10 000 000) is approximatively a second
+
+    //repasse RST a l'etat haut
+    RST(1);
+
+    activate_row(0);
+    init_bank0();
+    //test();
+}
+
+void test() {
+
+    deactivate_rows();
+    for (int i = 0 ; i < 8 ; i++) {
+        activate_row(i);
+    }
+
+    for (int col = 0 ; col < 8 ; col++) {
+        send_byte(0,1);
+        send_byte(0,1);
+        send_byte(2,1);
+    }
+    delay(2);
+    pulse_LAT();
+}
+
+void init_bank0() {
+    for (int led = 0 ; led < 24 ; led++) {
+        send_byte(2,0);
+    }
+    //delay(2);
+    pulse_LAT();
+}
+
+void mat_set_row(int row, const rgb_color *val) {
+    //chaque colonne a une couleur
+    //les lignes sont dans les ROWS
+    //les colonnes par couleur dans les send_byte
+
+    deactivate_rows();
+    activate_row(row);
+
+    for (int col = 0 ; col < 8 ; col++) {
+        send_byte(val->b,1);
+        send_byte(val->g,1);
+        send_byte(val->r,1);
+    }
+    //delay(2);
+    pulse_LAT();
+}
+
+void send_byte(uint8_t val, int bank) {
+    SB(bank);
+    uint8_t nb_bits = bank ? 8 : 6;
+    for (int led = 0 ; led < nb_bits ; led++) {
+        uint8_t bit = val>>(nb_bits - 1 -led) & 0x1;
+        SDA(bit);
+        //delay(1);
+        pulse_SCK();
+    }
+}
+
+void pulse_SCK() {
+    // 25 ns * 80MHz = 2, on met 3 par securite
+    SCK(0);
+    //delay(2);
+    SCK(1);
+    //delay(2);
+    SCK(0);
+    //delay(2);
+}
+
+void pulse_LAT() {
+    // 25 ns * 80MHz = 2, on met 3 par securite
+    LAT(1);
+    //delay(2);
+    LAT(0);
+    //delay(2);
+    LAT(1);
+    //delay(2);
+}
+
+void delay(int n) {
+    for (int i=0; i< n ; i++) {
+            asm volatile("nop");
+    }  
+}
+
+void deactivate_rows() {
     ROW0(0);
     ROW1(0);
     ROW2(0);
@@ -64,15 +156,36 @@ void matrix_init() {
     ROW5(0);
     ROW6(0);
     ROW7(0);
-
-    for (int i=0; i< 6000000 ; i++) {
-            asm volatile("nop");
-    }  
-    //repasse RST a l'etat haut
-    RST(1);
-
 }
 
+void activate_row(int row) {
+    switch (row) {
+        case 0 :
+            ROW0(1);
+            break;
+        case 1 :
+            ROW1(1);
+            break; 
+        case 2 :
+            ROW2(1);
+            break;
+        case 3 :
+            ROW3(1);
+            break;
+        case 4 :
+            ROW4(1);
+            break;
+        case 5 :
+            ROW5(1);
+            break;
+        case 6 :
+            ROW6(1);
+            break;
+        case 7 :
+            ROW7(1);
+            break;
+    }
+}
 
 void RST(int BIT) {
     if (BIT) {
