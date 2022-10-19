@@ -32,19 +32,19 @@ void matrix_init() {
     GPIOB->MODER = (GPIOB->MODER & ~GPIO_MODER_MODE2_Msk) | (1 << GPIO_MODER_MODE2_Pos);
 
     //on configure les broches PB0,1,2 en très haute vitesse (11)
-    GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~GPIO_OSPEEDR_OSPEED0_Msk) | (1 << GPIO_OSPEEDR_OSPEED0_Pos);
-    GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~GPIO_OSPEEDR_OSPEED1_Msk) | (1 << GPIO_OSPEEDR_OSPEED1_Pos);
-    GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~GPIO_OSPEEDR_OSPEED2_Msk) | (1 << GPIO_OSPEEDR_OSPEED2_Pos);
+    GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~GPIO_OSPEEDR_OSPEED0_Msk) | (3 << GPIO_OSPEEDR_OSPEED0_Pos);
+    GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~GPIO_OSPEEDR_OSPEED1_Msk) | (3 << GPIO_OSPEEDR_OSPEED1_Pos);
+    GPIOB->OSPEEDR = (GPIOB->OSPEEDR & ~GPIO_OSPEEDR_OSPEED2_Msk) | (3 << GPIO_OSPEEDR_OSPEED2_Pos);
 
     //on configure les broches PC3,4,5 en mode sortie (01)
-    GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE0_Msk) | (1 << GPIO_MODER_MODE0_Pos);
-    GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE1_Msk) | (1 << GPIO_MODER_MODE1_Pos);
-    GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE2_Msk) | (1 << GPIO_MODER_MODE2_Pos);
+    GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE3_Msk) | (1 << GPIO_MODER_MODE3_Pos);
+    GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE4_Msk) | (1 << GPIO_MODER_MODE4_Pos);
+    GPIOC->MODER = (GPIOC->MODER & ~GPIO_MODER_MODE5_Msk) | (1 << GPIO_MODER_MODE5_Pos);
 
     //on configure les broches PC3,4,5 en très haute vitesse (11)
-    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~GPIO_OSPEEDR_OSPEED0_Msk) | (1 << GPIO_OSPEEDR_OSPEED0_Pos);
-    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~GPIO_OSPEEDR_OSPEED1_Msk) | (1 << GPIO_OSPEEDR_OSPEED1_Pos);
-    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~GPIO_OSPEEDR_OSPEED2_Msk) | (1 << GPIO_OSPEEDR_OSPEED2_Pos);
+    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~GPIO_OSPEEDR_OSPEED3_Msk) | (3 << GPIO_OSPEEDR_OSPEED3_Pos);
+    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~GPIO_OSPEEDR_OSPEED4_Msk) | (3 << GPIO_OSPEEDR_OSPEED4_Pos);
+    GPIOC->OSPEEDR = (GPIOC->OSPEEDR & ~GPIO_OSPEEDR_OSPEED5_Msk) | (3 << GPIO_OSPEEDR_OSPEED5_Pos);
 
     //reset le DM163
     RST(0);
@@ -58,7 +58,7 @@ void matrix_init() {
     //eteindre toutes les lignes : C0 a C7 a 0
     deactivate_rows();
 
-    delay(2000000);
+    delay(10000000);
     //delay(10 000 000) is approximatively a second
 
     //repasse RST a l'etat haut
@@ -66,7 +66,7 @@ void matrix_init() {
 
     activate_row(0);
     init_bank0();
-    //test();
+    test();
 }
 
 void test() {
@@ -77,9 +77,9 @@ void test() {
     }
 
     for (int col = 0 ; col < 8 ; col++) {
+        send_byte(10,1);
         send_byte(0,1);
-        send_byte(0,1);
-        send_byte(2,1);
+        send_byte(20,1);
     }
     delay(2);
     pulse_LAT();
@@ -87,9 +87,9 @@ void test() {
 
 void init_bank0() {
     for (int led = 0 ; led < 24 ; led++) {
-        send_byte(2,0);
+        send_byte(63,0);
     }
-    //delay(2);
+    delay(1);
     pulse_LAT();
 }
 
@@ -106,17 +106,17 @@ void mat_set_row(int row, const rgb_color *val) {
         send_byte(val->g,1);
         send_byte(val->r,1);
     }
-    //delay(2);
+    delay(1);
     pulse_LAT();
 }
 
 void send_byte(uint8_t val, int bank) {
     SB(bank);
     uint8_t nb_bits = bank ? 8 : 6;
-    for (int led = 0 ; led < nb_bits ; led++) {
-        uint8_t bit = val>>(nb_bits - 1 -led) & 0x1;
+    for (int led = nb_bits ; led > 0 ; led--) {
+        uint8_t bit = (val >> (led)) & 0x1;
         SDA(bit);
-        //delay(1);
+        delay(1);
         pulse_SCK();
     }
 }
@@ -124,21 +124,21 @@ void send_byte(uint8_t val, int bank) {
 void pulse_SCK() {
     // 25 ns * 80MHz = 2, on met 3 par securite
     SCK(0);
-    //delay(2);
+    delay(2);
     SCK(1);
-    //delay(2);
+    delay(2);
     SCK(0);
-    //delay(2);
+    delay(2);
 }
 
 void pulse_LAT() {
     // 25 ns * 80MHz = 2, on met 3 par securite
     LAT(1);
-    //delay(2);
+    delay(2);
     LAT(0);
-    //delay(2);
+    delay(2);
     LAT(1);
-    //delay(2);
+    delay(2);
 }
 
 void delay(int n) {
