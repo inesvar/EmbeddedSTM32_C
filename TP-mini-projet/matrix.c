@@ -71,18 +71,31 @@ void matrix_init() {
 
 void test() {
 
-    deactivate_rows();
-    for (int i = 0 ; i < 8 ; i++) {
-        activate_row(i);
-    }
+    
+    while (1) {
+        deactivate_rows();
+        activate_row(0);
 
-    for (int col = 0 ; col < 8 ; col++) {
-        send_byte(10,1);
-        send_byte(0,1);
-        send_byte(20,1);
+        for (int col = 0 ; col < 8 ; col++) {
+            send_byte(10,1);
+            send_byte(10,1);
+            send_byte(10,1);
+        }
+        delay(2);
+        pulse_LAT();
+
+        deactivate_rows();
+        activate_row(1);
+
+        for (int col = 0 ; col < 8 ; col++) {
+            send_byte(10,1);
+            send_byte(0,1);
+            send_byte(0,1);
+        }
+        delay(2);
+        pulse_LAT();
     }
-    delay(2);
-    pulse_LAT();
+    activate_row(0);
 }
 
 void init_bank0() {
