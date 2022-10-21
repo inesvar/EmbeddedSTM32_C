@@ -72,19 +72,19 @@ void matrix_init() {
 void test() {
 
     int rgb_array[3];
-
-    for (int row =0; row < 8 ; row++) {
-        deactivate_rows();
-        activate_row(row);
-
-        for (int rgb = 2 ; rgb >= 0 ; rgb--) {
-            set_zero_color(rgb_array);
-            rgb_array[rgb] = 1;
-            mat_set_shaded_columns(rgb_array[0], rgb_array[1], rgb_array[2]);
-            delay(10000000);
+    //rgb_color line[8];
+    for (int i = 0 ; i < 800 ; i++) {
+        for (int time = 0 ; time < 300 ; time++) {
+            for (int row =0; row < 8 ; row++) {
+                deactivate_rows();
+                activate_row(row);
+                set_zero_color(rgb_array);
+                rgb_array[(row+i)%3] = 1;
+                mat_set_shaded_columns(rgb_array[0], rgb_array[1], rgb_array[2]);
+            }
         }
-    }
     deactivate_rows();
+    }
 }
 
 void set_zero_color(int * rgb) {
@@ -330,4 +330,3 @@ void ROW7(int BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BR3;
     }
 }
-
