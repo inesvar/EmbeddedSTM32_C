@@ -24,6 +24,11 @@ define flash
   load
 end
 
+define fc
+  flash
+  c
+end
+
 # Useful function when the processor is in hardfault to see
 # where it comes from.
 define armex

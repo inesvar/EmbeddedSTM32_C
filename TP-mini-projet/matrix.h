@@ -33,4 +33,12 @@ void init_bank0();
 void test();
 
 
+void set_rgb_vector(rgb_color * color, int r, int g, int b);
+
+void add_luminosity(int * i);
+
+void mat_set_shaded_columns(int r, int g, int b);
+void set_zero_color(int * rgb);
+
+
 

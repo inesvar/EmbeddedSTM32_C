@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include "clocks.h"
-#include "uart.h"
 #include "matrix.h"
 
 

@@ -28,7 +28,7 @@ connect:
 	JLinkGDBServer -device STM32L475VG -endian little -if SWD -speed auto -ir -LocalhostOnly
 
 debug:
-	$(GDB) -x se203.gdb
+	$(GDB) -x se203.gdb main
 
 clean :
 	rm $(OBJS_A)

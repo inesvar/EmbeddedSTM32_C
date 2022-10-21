@@ -59,7 +59,7 @@ void matrix_init() {
     deactivate_rows();
 
     delay(10000000);
-    //delay(10 000 000) is approximatively a second
+    //this delay lasts approximately a second
 
     //repasse RST a l'etat haut
     RST(1);
@@ -71,32 +71,59 @@ void matrix_init() {
 
 void test() {
 
-    
-    while (1) {
+    int rgb_array[3];
+
+    for (int row =0; row < 8 ; row++) {
         deactivate_rows();
-        activate_row(0);
+        activate_row(row);
 
-        for (int col = 0 ; col < 8 ; col++) {
-            send_byte(10,1);
-            send_byte(10,1);
-            send_byte(10,1);
+        for (int rgb = 2 ; rgb >= 0 ; rgb--) {
+            set_zero_color(rgb_array);
+            rgb_array[rgb] = 1;
+            mat_set_shaded_columns(rgb_array[0], rgb_array[1], rgb_array[2]);
+            delay(10000000);
         }
-        delay(2);
-        pulse_LAT();
-
-        deactivate_rows();
-        activate_row(1);
-
-        for (int col = 0 ; col < 8 ; col++) {
-            send_byte(10,1);
-            send_byte(0,1);
-            send_byte(0,1);
-        }
-        delay(2);
-        pulse_LAT();
     }
-    activate_row(0);
+    deactivate_rows();
 }
+
+void set_zero_color(int * rgb) {
+    for (int i = 0 ; i < 3 ; i++) {
+        rgb[i] = 0;
+    }
+}
+
+
+void set_rgb_vector(rgb_color * color, int r, int g, int b) {
+    color->r = r&0xFF;
+    color->g = g&0xFF;
+    color->b = b&0xFF;
+}
+
+void add_luminosity(int * i) {
+    int lum = *i;
+    lum = 2 * lum;
+    *i = lum;
+    //1 2 4 8 16 32 64 128 256
+}
+
+void mat_set_shaded_columns(int r, int g, int b) {
+    rgb_color color[8];
+    for (int col = 0 ; col < 8 ; col++) {
+        set_rgb_vector(&color[col], r, g, b);
+        add_luminosity(&r);
+        add_luminosity(&g);
+        add_luminosity(&b);
+    }
+    for (int col = 0 ; col < 8 ; col++) {
+        send_byte(color[col].b,1);
+        send_byte(color[col].g,1);
+        send_byte(color[col].r,1);
+    }
+    delay(1);
+    pulse_LAT();
+}
+
 
 void init_bank0() {
     for (int led = 0 ; led < 24 ; led++) {
