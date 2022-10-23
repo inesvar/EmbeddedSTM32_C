@@ -1,12 +1,13 @@
 #include <stdint.h>
+#define UINT
 #include "clocks.h"
 #include "matrix.h"
-
+#define MAT
+#include "using_leds.h"
 
 int main() {
     clocks_init();
     matrix_init();
+    test_pixels();
     return 0;
 }
-
-//la transmission a vitesse maximale 115200 ne marche que si on ne met pas d'autre envoi dans la boucle

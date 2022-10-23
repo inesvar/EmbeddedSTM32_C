@@ -1,6 +1,6 @@
 #include "stm32l4xx.h"
 #include "matrix.h"
-
+#include "matrix_init_private.h"
 
 void matrix_init() {
     //on allume l'horloge des ports A, B et C
@@ -64,90 +64,7 @@ void matrix_init() {
     //repasse RST a l'etat haut
     RST(1);
 
-    activate_row(0);
     init_bank0();
-    test();
-}
-
-void test() {
-
-    int rgb_array[3];
-    //rgb_color line[8];
-    for (int i = 0 ; i < 800 ; i++) {
-        for (int time = 0 ; time < 300 ; time++) {
-            for (int row =0; row < 8 ; row++) {
-                deactivate_rows();
-                activate_row(row);
-                set_zero_color(rgb_array);
-                rgb_array[(row+i)%3] = 1;
-                mat_set_shaded_columns(rgb_array[0], rgb_array[1], rgb_array[2]);
-            }
-        }
-    deactivate_rows();
-    }
-}
-
-void set_zero_color(int * rgb) {
-    for (int i = 0 ; i < 3 ; i++) {
-        rgb[i] = 0;
-    }
-}
-
-
-void set_rgb_vector(rgb_color * color, int r, int g, int b) {
-    color->r = r&0xFF;
-    color->g = g&0xFF;
-    color->b = b&0xFF;
-}
-
-void add_luminosity(int * i) {
-    int lum = *i;
-    lum = 2 * lum;
-    *i = lum;
-    //1 2 4 8 16 32 64 128 256
-}
-
-void mat_set_shaded_columns(int r, int g, int b) {
-    rgb_color color[8];
-    for (int col = 0 ; col < 8 ; col++) {
-        set_rgb_vector(&color[col], r, g, b);
-        add_luminosity(&r);
-        add_luminosity(&g);
-        add_luminosity(&b);
-    }
-    for (int col = 0 ; col < 8 ; col++) {
-        send_byte(color[col].b,1);
-        send_byte(color[col].g,1);
-        send_byte(color[col].r,1);
-    }
-    delay(1);
-    pulse_LAT();
-}
-
-
-void init_bank0() {
-    for (int led = 0 ; led < 24 ; led++) {
-        send_byte(63,0);
-    }
-    delay(1);
-    pulse_LAT();
-}
-
-void mat_set_row(int row, const rgb_color *val) {
-    //chaque colonne a une couleur
-    //les lignes sont dans les ROWS
-    //les colonnes par couleur dans les send_byte
-
-    deactivate_rows();
-    activate_row(row);
-
-    for (int col = 0 ; col < 8 ; col++) {
-        send_byte(val->b,1);
-        send_byte(val->g,1);
-        send_byte(val->r,1);
-    }
-    delay(1);
-    pulse_LAT();
 }
 
 void send_byte(uint8_t val, int bank) {
@@ -227,7 +144,15 @@ void activate_row(int row) {
     }
 }
 
-void RST(int BIT) {
+static void init_bank0() {
+    for (int led = 0 ; led < 24 ; led++) {
+        send_byte(63,0);
+    }
+    delay(1);
+    pulse_LAT();
+}
+
+static void RST(int BIT) {
     if (BIT) {
         GPIOC->BSRR |= GPIO_BSRR_BS3;
     } else {
@@ -235,7 +160,7 @@ void RST(int BIT) {
     }
 } 
 
-void SB(int BIT) {
+static void SB(int BIT) {
     if (BIT) {
         GPIOC->BSRR |= GPIO_BSRR_BS5;
     } else {
@@ -243,7 +168,7 @@ void SB(int BIT) {
     }
 }     
 
-void LAT(int BIT) {
+static void LAT(int BIT) {
     if (BIT) {
         GPIOC->BSRR |= GPIO_BSRR_BS4;
     } else {
@@ -251,7 +176,7 @@ void LAT(int BIT) {
     }
 }
 
-void SCK(int BIT) {
+static void SCK(int BIT) {
     if (BIT) {
         GPIOB->BSRR |= GPIO_BSRR_BS1;
     } else {
@@ -259,7 +184,7 @@ void SCK(int BIT) {
     }
 }
 
-void SDA(int BIT) {
+static void SDA(int BIT) {
     if (BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BS4;
     } else {
@@ -267,7 +192,7 @@ void SDA(int BIT) {
     }
 }
 
-void ROW0(int BIT) {
+static void ROW0(int BIT) {
     if (BIT) {
         GPIOB->BSRR |= GPIO_BSRR_BS2;
     } else {
@@ -275,7 +200,7 @@ void ROW0(int BIT) {
     }
 }
 
-void ROW1(int BIT) {
+static void ROW1(int BIT) {
     if (BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BS15;
     } else {
@@ -283,7 +208,7 @@ void ROW1(int BIT) {
     }
 }
 
-void ROW2(int BIT) {
+static void ROW2(int BIT) {
     if (BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BS2;
     } else {
@@ -291,7 +216,7 @@ void ROW2(int BIT) {
     }
 }
 
-void ROW3(int BIT) {
+static void ROW3(int BIT) {
     if (BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BS7;
     } else {
@@ -299,7 +224,7 @@ void ROW3(int BIT) {
     }
 }
 
-void ROW4(int BIT) {
+static void ROW4(int BIT) {
     if (BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BS6;
     } else {
@@ -307,7 +232,7 @@ void ROW4(int BIT) {
     }
 }
 
-void ROW5(int BIT) {
+static void ROW5(int BIT) {
     if (BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BS5;
     } else {
@@ -315,7 +240,7 @@ void ROW5(int BIT) {
     }
 }
 
-void ROW6(int BIT) {
+static void ROW6(int BIT) {
     if (BIT) {
         GPIOB->BSRR |= GPIO_BSRR_BS0;
     } else {
@@ -323,7 +248,7 @@ void ROW6(int BIT) {
     }
 }
 
-void ROW7(int BIT) {
+static void ROW7(int BIT) {
     if (BIT) {
         GPIOA->BSRR |= GPIO_BSRR_BS3;
     } else {
