@@ -70,7 +70,7 @@ void matrix_init() {
 void send_byte(uint8_t val, int bank) {
     SB(bank);
     uint8_t nb_bits = bank ? 8 : 6;
-    for (int led = nb_bits ; led > 0 ; led--) {
+    for (int led = nb_bits -1 ; led >= 0 ; led--) {
         uint8_t bit = (val >> (led)) & 0x1;
         SDA(bit);
         delay(1);

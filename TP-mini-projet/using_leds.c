@@ -99,7 +99,6 @@ static void add_luminosity(int rgb[3])
 static void mat_set_row(int row, const rgb_color line[8])
 {
     // chaque colonne a une couleur
-
     for (int col = 0; col < 8; col++)
     {
         send_byte(line[col].b, 1);
@@ -107,7 +106,7 @@ static void mat_set_row(int row, const rgb_color line[8])
         send_byte(line[col].r, 1);
     }
     deactivate_rows();
-    delay(70); //ce delai a ete choisi parce qu'il evite des clignotements de couleurs non-souhaitee dans les lignes allumees
+    delay(10);
     pulse_LAT();
 
     activate_row(row);
