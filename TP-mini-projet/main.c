@@ -8,6 +8,6 @@
 int main() {
     clocks_init();
     matrix_init();
-    test_pixels();
+    load_image();
     return 0;
 }
