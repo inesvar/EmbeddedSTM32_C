@@ -3,5 +3,6 @@
 #include "matrix.h"
 #endif
 
-void load_image();
+void show(rgb_color color_buffer[8][8]);
+void create_color_buffer(rgb_color color_buffer[8][8]);
 void test_pixels();

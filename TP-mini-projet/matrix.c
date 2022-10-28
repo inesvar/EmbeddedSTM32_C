@@ -1,5 +1,11 @@
+#ifndef CMSIS
+#define CMSIS
 #include "stm32l4xx.h"
+#endif
+#ifndef MAT
+#define MAT
 #include "matrix.h"
+#endif
 #include "matrix_init_private.h"
 
 void matrix_init() {

@@ -6,16 +6,10 @@
 #include "using_leds.h"
 #include "using_leds_private.h"
 
-
+extern int leds;
 extern uint8_t _datastart, _dataend;
 
-void load_image() {
-    rgb_color color_buffer[8][8];
-    create_color_buffer(color_buffer);
-    show(color_buffer);
-}
-
-static void create_color_buffer(rgb_color color_buffer[8][8]) {
+void create_color_buffer(rgb_color color_buffer[8][8]) {
     //lit le fichier image.o et place les octets dans le bon endroit dans le buffer
     for (int row = 0; row < 8; row++) {
         for (int col = 0 ; col < 8 ; col++) {
@@ -26,17 +20,19 @@ static void create_color_buffer(rgb_color color_buffer[8][8]) {
     }
 }
 
-static void show(rgb_color color_buffer[8][8]) 
+void show(rgb_color color_buffer[8][8]) 
 {
     //envoie le color_buffer au DM163
-    for (int i = 0 ; i < 1000000 ; i++)
+    while (1)
     {
-        for (int row = 0; row < 8; row++)
+        for (int row = 0; row < 8 && leds != 0; row++)
         {
             mat_set_row(row, color_buffer[row]);
         }
+        if (leds == 0) {
+            deactivate_rows();
+        }
     }
-    deactivate_rows();
 }
 
 void test_pixels()
