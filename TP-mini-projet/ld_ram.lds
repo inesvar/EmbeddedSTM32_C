@@ -17,9 +17,7 @@ SECTIONS
     } > SRAM1
 
     .data : {
-        _datastart = . ;
         *(.data)
-        _dataend = . ;
     } > SRAM1
 
     .bss : {

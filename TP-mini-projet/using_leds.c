@@ -7,7 +7,7 @@
 #include "using_leds_private.h"
 
 
-extern uint8_t _datastart, _dataend;
+extern uint8_t _binary_image_raw_start, _binary_image_raw_end;
 
 void load_image() {
     rgb_color color_buffer[8][8];
@@ -19,9 +19,9 @@ static void create_color_buffer(rgb_color color_buffer[8][8]) {
     //lit le fichier image.o et place les octets dans le bon endroit dans le buffer
     for (int row = 0; row < 8; row++) {
         for (int col = 0 ; col < 8 ; col++) {
-            color_buffer[row][col].b = *(&_datastart + 24 * row + (7 - col) * 3 + 2);
-            color_buffer[row][col].g = *(&_datastart + 24 * row + (7 - col) * 3 + 1);
-            color_buffer[row][col].r = *(&_datastart + 24 * row + (7 - col) * 3);
+            color_buffer[row][col].b = *(&_binary_image_raw_start + 24 * row + (7 - col) * 3 + 2);
+            color_buffer[row][col].g = *(&_binary_image_raw_start + 24 * row + (7 - col) * 3 + 1);
+            color_buffer[row][col].r = *(&_binary_image_raw_start + 24 * row + (7 - col) * 3);
         }
     }
 }
