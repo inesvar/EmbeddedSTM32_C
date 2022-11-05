@@ -44,6 +44,9 @@ void uart_init(int baudrate)
     //autorise l'interruption si un octet est reçu (si RXNE vaut 1)
     USART1->CR1 |= USART_CR1_RXNEIE;
 
+    //autorise l'interruption s'il y a FE
+    USART1->CR3 |= USART_CR3_EIE;
+
     //autoriser l'interruption USART1
     NVIC_EnableIRQ(37);
 
@@ -55,9 +58,25 @@ void uart_init(int baudrate)
 }
 
 void USART1_IRQHandler() {
+    static int ignore_frame = 0;
+    if (USART1->ISR & USART_ISR_FE_Msk) {
+        ignore_frame = 1;
+        USART1->ICR |= USART_ICR_FECF;
+        return;
+    }
+    if (USART1->ISR & USART_ISR_ORE_Msk) {
+        ignore_frame = 1;
+        USART1->ICR |= USART_ICR_ORECF;
+        return;
+    }
     //lit dans le RDR
     uint8_t image_octet = 0xFF & (USART1->RDR & USART_RDR_RDR_Msk);
-    update_image_on_matrix(image_octet);
+    if (ignore_frame && (image_octet==0xFF)) {
+        ignore_frame = 0;
+    }
+    if (~ignore_frame) {
+        update_image_on_matrix(image_octet);
+    }
 }
 
 
