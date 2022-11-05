@@ -8,7 +8,7 @@ ASFLAGS = -g -mthumb
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard 
 LDFLAGS = -T ld_ram.lds -nostdlib -g
 
-OBJS_A = crt0.o matrix.o main.o init.o using_leds.o image.o irq.o buttons.o
+OBJS_A = crt0.o matrix.o main.o init.o using_led_matrix.o image.o irq.o buttons.o led_g.o
 OBJS := $(OBJS_A) clocks.o
 EXE = main.elf
 

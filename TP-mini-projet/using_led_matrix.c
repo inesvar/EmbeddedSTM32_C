@@ -3,13 +3,13 @@
 #include "matrix.h"
 #endif
 
-#include "using_leds.h"
-#include "using_leds_private.h"
+#include "using_led_matrix.h"
+#include "using_led_matrix_private.h"
 
 extern int leds;
 extern uint8_t _binary_image_raw_start, _binary_image_raw_end;
 
-void create_color_buffer(rgb_color color_buffer[8][8]) {
+void fill_color_buffer(rgb_color color_buffer[8][8]) {
     //lit le fichier image.o et place les octets dans le bon endroit dans le buffer
     for (int row = 0; row < 8; row++) {
         for (int col = 0 ; col < 8 ; col++) {
@@ -25,12 +25,9 @@ void show(rgb_color color_buffer[8][8])
     //envoie le color_buffer au DM163
     while (1)
     {
-        for (int row = 0; row < 8 && leds != 0; row++)
+        for (int row = 0; row < 8; row++)
         {
             mat_set_row(row, color_buffer[row]);
-        }
-        if (leds == 0) {
-            deactivate_rows();
         }
     }
 }
