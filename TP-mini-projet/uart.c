@@ -5,7 +5,7 @@
 
 
 
-void uart_init()
+void uart_init(int baudrate)
 {
     //on allume l'horloge du port B
     RCC->AHB2ENR |= RCC_AHB2ENR_GPIOBEN;
@@ -28,11 +28,8 @@ void uart_init()
     RCC->APB2RSTR |= RCC_APB2RSTR_USART1RST;
     RCC->APB2RSTR &= ~RCC_APB2RSTR_USART1RST;
     
-    //Configurer la vitesse du port serie a 115200 bauds
-    
-    // 80 000 000 / 115 200 = 694 d = 2b6 h
-    //mettre 2b6 dans USARTDIV
-    USART1->BRR = (80000000/115200);  
+    //Configurer la vitesse du port serie a baudrate bauds
+    USART1->BRR = (80000000/baudrate);  
     
     //configurer l'oversampling a 16 : bit a 0
     USART1->CR1 &= ~USART_CR1_OVER8;
