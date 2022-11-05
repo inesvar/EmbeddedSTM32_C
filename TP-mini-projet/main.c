@@ -20,7 +20,7 @@ int main() {
     uart_init(38400);
 
     //transmitting the color buffer to the led matrix
-    show(image_on_matrix);
+    show();
 
     return 0;
 }
