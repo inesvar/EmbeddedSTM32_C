@@ -1,8 +1,6 @@
-#include <stdint.h>
 #include "stm32l4xx.h"
-//#include "stm32l475.h"
 #include "uart.h"
-
+#include "using_led_matrix.h"
 
 
 void uart_init(int baudrate)
@@ -43,6 +41,12 @@ void uart_init(int baudrate)
     //un bit de stop : (00) dans STOP
     USART1->CR2 &= ~USART_CR2_STOP;
 
+    //autorise l'interruption si un octet est reçu (si RXNE vaut 1)
+    USART1->CR1 |= USART_CR1_RXNEIE;
+
+    //autoriser l'interruption USART1
+    NVIC_EnableIRQ(37);
+
     //Activer l'USART1, le transmetteur et le recepteur
     USART1->CR1 |= USART_CR1_UE;
     USART1->CR1 |= USART_CR1_TE;
@@ -50,41 +54,10 @@ void uart_init(int baudrate)
     
 }
 
-void uart_putchar(uint8_t c) {
-    //attend que TXE = 1 pour avoir l'autorisation d'ecrire dans TDR 
-    while ((USART1->ISR & USART_ISR_TXE_Msk) != USART_ISR_TXE_Msk) {}
-    
-    //ecrit c dans le TDR
-    USART1->TDR = (USART1->TDR & ~USART_TDR_TDR_Msk) | (c << USART_TDR_TDR_Pos);
-
-    while ((USART1->ISR & USART_ISR_TC_Msk) != USART_ISR_TC_Msk) {}
-}
-
-
-uint8_t uart_getchar() {
-    //attend que RXNE = 1 pour lire dans RDR 
-    while ((USART1->ISR & USART_ISR_RXNE_Msk) != USART_ISR_RXNE_Msk) {}
-    
+void USART1_IRQHandler() {
     //lit dans le RDR
-    uint8_t c = 0xFF & (USART1->RDR & USART_RDR_RDR_Msk);
-    return c;
-}
-
-
-void uart_puts(const char *s) {
-    while (*s != '\0') {
-        uart_putchar(*s);
-        s++;
-    }
-    uart_putchar('\0');
-}
-
-void uart_gets(char *s, size_t size) {
-    for (uint32_t i = 0; i < size ; i++) {
-        *s = uart_getchar();
-        s++; 
-    }
-    *s = '\0';
+    uint8_t image_octet = 0xFF & (USART1->RDR & USART_RDR_RDR_Msk);
+    update_image_on_matrix(image_octet);
 }
 
 

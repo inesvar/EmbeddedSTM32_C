@@ -3,6 +3,12 @@
 #include "matrix.h"
 #endif
 
-void show(rgb_color color_buffer[8][8]);
-void fill_color_buffer(rgb_color color_buffer[8][8]);
-void test_pixels();
+typedef struct {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} rgb_color;
+
+extern rgb_color image_on_matrix[8][8];
+void update_image_on_matrix(uint8_t octet);
+void show();

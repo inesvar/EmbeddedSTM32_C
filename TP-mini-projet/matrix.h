@@ -1,13 +1,7 @@
-#ifndef UINT
-#define UINT
-#include <stdint.h>
+#ifndef CMSIS
+#define CMSIS
+#include "stm32l4xx.h"
 #endif
-
-typedef struct {
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-} rgb_color;
 
 void matrix_init();
 
