@@ -22,6 +22,12 @@ int main() {
     button_init();
 
     rgb_color color_buffer[8][8];
+
+    
+    //receiving data and writing it in _binary_raw_image
+
+
+    //updating the color buffer and transmitting it to the led matrix
     fill_color_buffer(color_buffer);
     show(color_buffer);
 
