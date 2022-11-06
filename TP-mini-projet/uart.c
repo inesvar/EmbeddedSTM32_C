@@ -1,6 +1,8 @@
-#ifndef CMSISandMAT
+#ifndef CMSIS
+#define CMSIS
 #include "stm32l4xx.h"
 #endif
+
 #include "uart.h"
 #include "using_led_matrix.h"
 

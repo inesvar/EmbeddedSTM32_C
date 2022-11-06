@@ -1,11 +1,6 @@
-#ifndef UINT
-#define UINT
-#include <stdint.h>
-#endif
 #ifndef CMSIS
 #define CMSIS
 #include "stm32l4xx.h"
-#include "core_cm4.h"
 #endif
 
 

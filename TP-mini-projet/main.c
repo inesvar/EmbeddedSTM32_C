@@ -1,8 +1,7 @@
 #include "clocks.h"
 
 #ifndef CMSISandMAT
-#define CCMASISandMAT
-#include "stm32l4xx.h"
+#define CMSISandMAT
 #include "matrix.h"
 #endif
 
