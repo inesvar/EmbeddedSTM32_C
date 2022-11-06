@@ -2,7 +2,7 @@
 #define CMSIS
 #include "stm32l4xx.h"
 #endif
-#include "led_g.h"
+#include "using_led_matrix.h"
 
 void timer_init(int max_us) {
     //active horloge du time TIM2
@@ -34,5 +34,5 @@ void timer_init(int max_us) {
 
 void TIM2_IRQHandler() {
     TIM2->SR &= ~TIM_SR_UIF;
-    led_g_toggle();
+    show();
 }

@@ -5,12 +5,9 @@ static void mat_set_row(int row, const rgb_color line[8]);
 void show() 
 {
     //envoie le color_buffer au DM163 
-    while (1)
+    for (int row = 0; row < 8; row++)
     {
-        for (int row = 0; row < 2; row++)
-        {
-            mat_set_row(row, image_on_matrix[row]);
-        }
+        mat_set_row(row, image_on_matrix[row]);
     }
 }
 
