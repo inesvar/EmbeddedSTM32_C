@@ -1,11 +1,11 @@
 #include "clocks.h"
 
-#ifndef CMSIS
-#define CMSIS
+#ifndef CMSISandMAT
+#define CCMASISandMAT
 #include "stm32l4xx.h"
+#include "matrix.h"
 #endif
 
-#include "matrix.h"
 #include "using_led_matrix.h"
 #include "irq.h"
 #include "uart.h"

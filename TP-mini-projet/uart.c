@@ -1,4 +1,6 @@
+#ifndef CMSISandMAT
 #include "stm32l4xx.h"
+#endif
 #include "uart.h"
 #include "using_led_matrix.h"
 
@@ -59,22 +61,23 @@ void uart_init(int baudrate)
 
 void USART1_IRQHandler() {
     static int ignore_frame = 0;
+    
     if (USART1->ISR & USART_ISR_FE_Msk) {
         ignore_frame = 1;
         USART1->ICR |= USART_ICR_FECF;
-        return;
     }
     if (USART1->ISR & USART_ISR_ORE_Msk) {
         ignore_frame = 1;
         USART1->ICR |= USART_ICR_ORECF;
-        return;
     }
     //lit dans le RDR
     uint8_t image_octet = 0xFF & (USART1->RDR & USART_RDR_RDR_Msk);
+
     if (ignore_frame && (image_octet==0xFF)) {
         ignore_frame = 0;
     }
-    if (~ignore_frame) {
+
+    if (ignore_frame == 0) {
         update_image_on_matrix(image_octet);
     }
 }

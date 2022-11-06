@@ -1,33 +1,18 @@
+#ifndef CMSISandMAT
+#define CCMASISandMAT
+#include "stm32l4xx.h"
+#include "matrix.h"
+#endif
 #include "using_led_matrix.h"
 
 static void mat_set_row(int row, const rgb_color line[8]);
 
 void show() 
 {
-    //envoie le color_buffer au DM163
-    for (int i = 0 ; i < 1500 ; i++)
-    {
-        for (int row = 0; row < 8; row++)
-        {
-            mat_set_row(row, image_on_matrix[row]);
-        }
-    }
-    deactivate_rows();
-    activate_row(0);
-    USART1->CR2 &= USART_CR2_STOP;
-    USART1->CR2 &= ~USART_CR2_STOP;
-    for (int i = 0 ; i < 15 ; i++)
-    {
-        for (int row = 0; row < 8; row++)
-        {
-            mat_set_row(row, image_on_matrix[row]);
-        }
-    }
-    
-    
+    //envoie le color_buffer au DM163 
     while (1)
     {
-        for (int row = 0; row < 8; row++)
+        for (int row = 0; row < 2; row++)
         {
             mat_set_row(row, image_on_matrix[row]);
         }

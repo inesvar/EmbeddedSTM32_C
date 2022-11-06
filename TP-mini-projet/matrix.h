@@ -1,5 +1,4 @@
-#ifndef CMSIS
-#define CMSIS
+#ifndef CMSISandMAT
 #include "stm32l4xx.h"
 #endif
 
