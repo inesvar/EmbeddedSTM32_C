@@ -1,8 +1,3 @@
-#ifndef CMSISandMAT
-#define CCMASISandMAT
-#include "stm32l4xx.h"
-#include "matrix.h"
-#endif
 #include "using_led_matrix.h"
 
 static void mat_set_row(int row, const rgb_color line[8]);
