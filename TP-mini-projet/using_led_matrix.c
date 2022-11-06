@@ -9,6 +9,8 @@ void show()
     {
         mat_set_row(row, image_on_matrix[row]);
     }
+    delay(2000);
+    deactivate_rows();
 }
 
 void update_image_on_matrix(uint8_t octet) {

@@ -18,10 +18,14 @@ int main() {
     matrix_init();
     irq_init();
     uart_init(38400);
-    timer_init(1000);
+    timer_init(10000);
 
-    while(1) {}
-
+    while (1) {
+        if (enable_show) {
+            enable_show = 0;
+            show();
+        }
+    }
     return 0;
 }
 

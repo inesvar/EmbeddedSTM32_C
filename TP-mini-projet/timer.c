@@ -4,6 +4,8 @@
 #endif
 #include "using_led_matrix.h"
 
+volatile int enable_show = 0;
+
 void timer_init(int max_us) {
     //active horloge du time TIM2
     RCC->APB1ENR1 |= RCC_APB1ENR1_TIM2EN;
@@ -34,5 +36,5 @@ void timer_init(int max_us) {
 
 void TIM2_IRQHandler() {
     TIM2->SR &= ~TIM_SR_UIF;
-    show();
+    enable_show = 1;
 }
