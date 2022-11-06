@@ -1,5 +1,5 @@
 #ifndef CMSISandMAT
-#define CCMASISandMAT
+#define CMSISandMAT
 #include "matrix.h"
 #endif
 
