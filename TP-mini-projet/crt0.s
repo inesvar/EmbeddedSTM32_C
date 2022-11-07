@@ -4,6 +4,7 @@
 .thumb
 .global _start
 
+.thumb_func
 _start :
     ldr sp, =stack_start
     bl init_bss
