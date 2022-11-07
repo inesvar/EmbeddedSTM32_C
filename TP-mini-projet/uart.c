@@ -23,7 +23,7 @@ void uart_init(int baudrate)
     //Activer l'horloge du port serie USART1.
     RCC->APB2ENR |= RCC_APB2ENR_USART1EN;  
 
-    //PCLK horologe de USART1 : (00) dans USART1SEL
+    //PCLK horloge de USART1 : (00) dans USART1SEL
     RCC->CCIPR &= ~RCC_CCIPR_USART1SEL;
 
     //reset du port serie 
