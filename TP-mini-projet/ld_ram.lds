@@ -1,5 +1,6 @@
 MEMORY 
 {
+    BOOT (rx) : ORIGIN = 0x00000000, LENGTH = 1M
     FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 1M
     SRAM1 (wx) : ORIGIN = 0x20000000, LENGTH = 96K
     SRAM2 (wx) : ORIGIN = 0x10000000, LENGTH = 32K
@@ -8,23 +9,30 @@ MEMORY
 
 SECTIONS
 {
+    .vtor : {
+        *(.vtor)
+    } > FLASH
+
     .text : {
         *(.text)
-    } > SRAM1
+        _flashdata = . ;
+    } > FLASH
 
     .rodata : {
         *(.rodata)
-    } > SRAM1
+    } > FLASH
 
     .data : {
+        _data = . ;
         *(.data)
-    } > SRAM1
+        _edata = . ;
+    } > SRAM1 AT> FLASH 
 
     .bss : {
         _bstart = . ;
         *(.bss) *(*COMMON*)
         _bend = . ;
-    } > SRAM1
+    } > SRAM1 AT> FLASH
 }
 
 stack_start = ORIGIN(SRAM2) + LENGTH(SRAM2);

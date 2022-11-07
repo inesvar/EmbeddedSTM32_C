@@ -99,7 +99,7 @@ MAKE_DEFAULT_HANDLER(TSC_IRQHandler)
 MAKE_DEFAULT_HANDLER(RNG_IRQHandler)
 MAKE_DEFAULT_HANDLER(FPU_IRQHandler)
 
-void __attribute__( ( aligned ( 512 ) ) ) * vector_table[] = {
+void __attribute__( ( section(".vtor")) ) * vector_table[] = {
     // Stack and Reset Handler
     &stack_start,            /* Top of stack */
     &_start,             /* Reset handler */

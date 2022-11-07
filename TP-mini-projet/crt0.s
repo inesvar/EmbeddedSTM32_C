@@ -7,6 +7,7 @@
 .thumb_func
 _start :
     ldr sp, =stack_start
+    bl init_data
     bl init_bss
     bl main
 

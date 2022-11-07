@@ -32,5 +32,5 @@ debug:
 	$(GDB) -x se203.gdb main.elf
 
 clean :
-	rm $(OBJS_A)
+	rm $(OBJS)
 	rm $(EXE)
