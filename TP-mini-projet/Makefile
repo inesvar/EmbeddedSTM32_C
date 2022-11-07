@@ -8,8 +8,7 @@ ASFLAGS = -g -mthumb
 TARGET_ARCH = -mcpu=cortex-m4 -mthumb -mfloat-abi=hard 
 LDFLAGS = -T ld_ram.lds -nostdlib -g
 
-OBJS_A = crt0.o matrix.o main.o init.o using_led_matrix.o irq.o uart.o timer.o
-OBJS := $(OBJS_A) clocks.o
+OBJS = crt0.o matrix.o main.o init.o using_led_matrix.o irq.o uart.o timer.o clocks.o
 EXE = main.elf
 
 GDB   = gdb-multiarch
