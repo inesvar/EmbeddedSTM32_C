@@ -15,11 +15,11 @@ SECTIONS
 
     .text : {
         *(.text)
-        _flashdata = . ;
     } > FLASH
 
     .rodata : {
         *(.rodata)
+        _flashdata = . ;
     } > FLASH
 
     .data : {
