@@ -9,7 +9,9 @@ MEMORY
 SECTIONS
 {
     .vtor : {
+        _vtor = . ;
         *(.vtor)
+        _evtor = . ;
     } > SRAM1 AT> FLASH
 
     .textinit : {
@@ -40,6 +42,7 @@ SECTIONS
 }
 
 stack_start = ORIGIN(SRAM2) + LENGTH(SRAM2);
+_flashvtor = LOADADDR(.vtor);
 _flashdata = LOADADDR(.data);
 _flashtext = LOADADDR(.text);
 ENTRY(_start)

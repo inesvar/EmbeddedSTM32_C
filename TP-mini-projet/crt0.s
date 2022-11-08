@@ -7,9 +7,10 @@
 .thumb_func
 _start :
     ldr sp, =stack_start
+    bl init_text
+    bl init_vtor
     bl init_data
     bl init_bss
-    bl init_text
     bl main
 
 _exit :
